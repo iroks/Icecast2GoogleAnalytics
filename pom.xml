@@ -18,7 +18,7 @@
     </build>
 
     <groupId>com.coherentreceiver</groupId>
-    <artifactId>icecast2googleanalyticsgithub3</artifactId>
+    <artifactId>icecast2googleanalytics</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
