@@ -1,0 +1,39 @@
+<root>
+    <!--- analytics update frequency in seconds-->
+    <analytics-update-frequency>60</analytics-update-frequency>
+    <!--- how oft the data from icecast will be refreshed -->
+    <icecast-update-frequency>60</icecast-update-frequency>
+
+    <!--- icecast server configuration -->
+    <server>
+        <!--- server id -->
+        <id>1</id>
+        <!--- icecast status url -->
+        <statsurl>http://</statsurl>
+        <!--- icecast listener url -->
+        <listenerurl>http://</listenerurl>
+        <!--- login -->
+        <login>login</login>
+        <!--- password -->
+        <password>password</password>
+
+        <!--- mountpoints configuration -->
+        <mountpointsgaaccounts>
+        <!--- mountpoint -->
+            <mountpoint>/live</mountpoint>
+        <!--- GA-Account ID -->
+            <gaaccount>UA-1234-1</gaaccount>
+        <!--- user generation id algorithm in ga -->
+            <user_id_algorithm>ip</user_id_algorithm>
+        <!--- character decoding -->
+            <character-decoding>no</character-decoding>
+        </mountpointsgaaccounts>
+    </server>
+    <server>
+
+        <!--- next server -->
+
+    </server>
+
+
+</root>
