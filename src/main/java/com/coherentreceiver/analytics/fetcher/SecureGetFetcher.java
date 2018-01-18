@@ -1,5 +1,5 @@
 
-/*     Copyright 2017 Igor Sedov
+/*     Copyright 2017 SWI Kommunikations- und Computer GmbH
 *
 *        Licensed under the Apache License, Version 2.0 (the "License");
 *        you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ package com.coherentreceiver.analytics.fetcher;
         import java.io.InputStream;
 
 /**
- * Created by igor on 13.07.16.
+ *
  */
 public class SecureGetFetcher implements HTTPFetcher {
 
