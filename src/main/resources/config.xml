@@ -9,9 +9,9 @@
         <!--- server id -->
         <id>1</id>
         <!--- icecast status url -->
-        <statsurl>http://</statsurl>
+        <statsurl>http://path_to_your_server:8000/admin/stats</statsurl>
         <!--- icecast listener url -->
-        <listenerurl>http://</listenerurl>
+        <listenerurl>http://path_to_your_server:8000/admin/listclients?mount=</listenerurl>
         <!--- login -->
         <login>login</login>
         <!--- password -->
@@ -19,19 +19,42 @@
 
         <!--- mountpoints configuration -->
         <mountpointsgaaccounts>
-        <!--- mountpoint -->
+            <!--- mountpoint -->
             <mountpoint>/live</mountpoint>
-        <!--- GA-Account ID -->
+            <!--- GA-Account ID -->
             <gaaccount>UA-1234-1</gaaccount>
-        <!--- user generation id algorithm in ga -->
+            <!--- user generation id algorithm in ga -->
             <user_id_algorithm>ip</user_id_algorithm>
-        <!--- character decoding -->
+            <!--- character decoding -->
             <character-decoding>no</character-decoding>
         </mountpointsgaaccounts>
-    </server>
-    <server>
 
-        <!--- next server -->
+
+        <!--- next mount point on the same server -->
+
+        <mountpointsgaaccounts>
+            <mountpoint>/live_aac</mountpoint>
+            <gaaccount>UA-123456-4</gaaccount>
+	        <user_id_algorithm>anonymized_ip</user_id_algorithm>
+	        <character-decoding>no</character-decoding>
+        </mountpointsgaaccounts>
+
+
+    </server>
+
+    <!---next server -->
+   <server>
+       <id>2</id>
+        <statsurl>http://....:9005/admin/stats</statsurl>
+        <listenerurl>http://....:9005/admin/listclients?mount=</listenerurl>
+        <login>login</login>
+        <password>password</password>
+        <mountpointsgaaccounts>
+            <mountpoint>/hardrock</mountpoint>
+            <gaaccount>UA-12345-6</gaaccount>
+        	<user_id_algorithm>anonymized_ip</user_id_algorithm>
+            <character-decoding>no</character-decoding>
+        </mountpointsgaaccounts>
 
     </server>
 
