@@ -30,7 +30,7 @@
         </mountpointsgaaccounts>
 
 
-        <!--- next mount point on the same server -->
+        <!--- next mount point on the same server
 
         <mountpointsgaaccounts>
             <mountpoint>/live_aac</mountpoint>
@@ -38,11 +38,11 @@
 	        <user_id_algorithm>anonymized_ip</user_id_algorithm>
 	        <character-decoding>no</character-decoding>
         </mountpointsgaaccounts>
-
+-->
 
     </server>
 
-    <!---next server -->
+    <!---next server
    <server>
        <id>2</id>
         <statsurl>http://....:9005/admin/stats</statsurl>
@@ -57,6 +57,6 @@
         </mountpointsgaaccounts>
 
     </server>
-
+-->
 
 </root>
