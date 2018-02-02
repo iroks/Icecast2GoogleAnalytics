@@ -100,6 +100,13 @@ public class GAUpdateTask extends AbstractTask<StreamProperty>  implements Runna
             GoogleAnalytics ga = new GoogleAnalytics(streamProperty.getGaAccount());
             IDGenerator idGenerator = streamProperty.getIdGenerator();
             pageViewHit.clientId(idGenerator.getId(singleListener));
+            if (singleListener.getReferer()!=null){
+                                pageViewHit.documentReferrer(singleListener.getReferer());
+                            }
+            if (singleListener.getUserAgent()!=null){
+                pageViewHit.userAgent(singleListener.getUserAgent());
+            }
+
             ga.post(pageViewHit);
 
         } catch (Exception e) {
