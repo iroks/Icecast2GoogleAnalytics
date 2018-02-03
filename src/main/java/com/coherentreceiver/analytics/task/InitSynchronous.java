@@ -116,7 +116,8 @@ public class InitSynchronous {
                 }
 
             } catch (Exception e) {
-                logger.error(e.getMessage());
+                logger.error(e.getMessage(), e);
+
             }
 
             return streamProperties;

@@ -76,7 +76,7 @@ public class GAUpdateTask extends AbstractTask<StreamProperty>  implements Runna
 
             }
         }catch (Exception e) {
-            logger.error(e.toString());
+            logger.error(e.toString(), e);
         }
 
         return listeners;
@@ -110,7 +110,7 @@ public class GAUpdateTask extends AbstractTask<StreamProperty>  implements Runna
             ga.post(pageViewHit);
 
         } catch (Exception e) {
-            logger.error(e.toString());
+            logger.error(e.toString(), e);
         }
     }
 
