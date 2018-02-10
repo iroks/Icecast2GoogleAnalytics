@@ -25,9 +25,24 @@ public class IDGeneratorAnonymizedIP implements IDGenerator {
     public String getId (SingleListenerElement listener){
 
         String ip = listener.getIp();
-        String truncatedIP = ip.substring(0, ip.lastIndexOf("."));
 
-        return truncatedIP + "." + "0";
+        if (ip.lastIndexOf(".") != -1) {
+            //ipv4
+            String truncatedIP = ip.substring(0, ip.lastIndexOf("."));
+            return truncatedIP + "." + "0";
+        }
+
+        if (ip.lastIndexOf(":") != -1){
+            //ipv6
+            String truncatedIP = ip.substring(0, ip.lastIndexOf(":"));
+            return truncatedIP + ":" + "0";
+        }
+
+        return ip;
+
+
+
+
     }
 
     public static void main (String[] args){
@@ -35,6 +50,9 @@ public class IDGeneratorAnonymizedIP implements IDGenerator {
         IDGeneratorAnonymizedIP test = new IDGeneratorAnonymizedIP();
         SingleListenerElement listener = new SingleListenerElement();
         listener.setIp("0.0.0.0");
+        System.out.println (test.getId(listener));
+
+        listener.setIp("0:0:0:0:12:25");
         System.out.println (test.getId(listener));
     }
 }
