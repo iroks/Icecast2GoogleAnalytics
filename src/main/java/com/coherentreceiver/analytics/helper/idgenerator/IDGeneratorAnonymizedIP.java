@@ -29,16 +29,16 @@ public class IDGeneratorAnonymizedIP implements IDGenerator {
         if (ip.lastIndexOf(".") != -1) {
             //ipv4
             String truncatedIP = ip.substring(0, ip.lastIndexOf("."));
-            return truncatedIP + "." + "0";
+            return truncatedIP + "." + "0" + "-" + listener.getId();
         }
 
         if (ip.lastIndexOf(":") != -1){
             //ipv6
             String truncatedIP = ip.substring(0, ip.lastIndexOf(":"));
-            return truncatedIP + ":" + "0";
+            return truncatedIP + ":" + "0"+ "-" + listener.getId();
         }
 
-        return ip;
+        return ip+"-"+listener.getId();
 
 
 
