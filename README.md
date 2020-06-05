@@ -1,5 +1,5 @@
 # Icecast2GoogleAnalytics
-https://coherent-receiver.com/google-analytics-and-icecast - for more details
+https://coherent-receiver.com/google-analytics-and-icecast - for more details <br> 
 https://github.com/ned-kelly/docker-icecast-google-analytics - dockerised version 
 https://coherent-receiver.com/multi-channel-receivers-for-radio-station-monitoring - hardware platform for broadcasting monitoring or hybrid radio
 
