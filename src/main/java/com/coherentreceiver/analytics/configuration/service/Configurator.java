@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,7 @@ import javax.annotation.PostConstruct;
  *
  */
 @Configuration
+@ComponentScan
 public class Configurator {
 
     private static final Logger log = LoggerFactory.getLogger(Configurator.class);
@@ -37,16 +39,13 @@ public class Configurator {
     private String configurationfile;
 
 
-
-    @Bean (name="appconfig")
-    public Config init() {
+    @Bean (name="appconfiguration")
+    public Config getConfiguration() {
         log.info("Loading configuration file " + configurationfile);
         Config appConfig=null;
         try {
             Class<Config> c = Config.class;
             appConfig = new XMLConverter().readConfigurationFromFile(configurationfile, c);
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

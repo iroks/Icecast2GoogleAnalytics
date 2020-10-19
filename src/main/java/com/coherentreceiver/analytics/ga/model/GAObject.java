@@ -13,7 +13,7 @@
 *        limitations under the License.
 */
 
-package com.coherentreceiver.analytics.ga;
+package com.coherentreceiver.analytics.ga.model;
 
 import java.time.LocalDateTime;
 

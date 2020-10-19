@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Basis configuration binding class
  */
-@Component
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Config {
 

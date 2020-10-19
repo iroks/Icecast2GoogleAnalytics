@@ -21,6 +21,7 @@ import com.brsanthu.googleanalytics.GoogleAnalytics;
 import com.brsanthu.googleanalytics.PageViewHit;
 import com.coherentreceiver.analytics.configuration.model.Config;
 import com.coherentreceiver.analytics.configuration.service.Configurator;
+import com.coherentreceiver.analytics.ga.service.GAService;
 import com.coherentreceiver.analytics.helper.idgenerator.IDGenerator;
 import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.Listeners;
 import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.SingleListenerElement;
@@ -30,97 +31,33 @@ import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamProperty
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  *
  */
 @Component
-public class GAUpdateTask   {
+public class GAUpdateTask extends AbstractTask   {
 
     final Logger logger = LoggerFactory.getLogger(GAUpdateTask.class);
 
     @Autowired
-    private Config config;
+    private GAService gaService;
 
-    @Autowired
-    private StreamPropertyService streamPropertyService;
-
-    @Autowired
-    private ServerService serverService;
-
-
-  //  @Scheduled(fixedDelay = 40000)
+    @Scheduled (fixedDelayString = "#{appconfiguration.analyticsUpdateFrequency*1000}")
     public void gaUpdateTask () {
-
-        config.getServers()
-                .stream()
-                .map(server -> serverService.getStreamPropertiesByServer (server))
-                .forEach(streamProperty -> streamProperty.forEach(sp -> updateSynchronous(sp)));
-
-        logger.debug("ga update process done");
-
+        super.updateTask();
     }
 
-     public void updateSynchronous (StreamProperty sp){
+     public void updateSynchronous (StreamProperty sp, Listeners listeners){
 
-         streamPropertyService.setStreamProperty(sp);
-         Listeners listeners = streamPropertyService.getListeners ();
-
-
-        //there are no listeners anymore
-        if (listeners==null) {
-            return;
-
+           for (SingleListenerElement singleListener : listeners.getSource().getListeners()){
+            gaService.makePageHit (sp, singleListener);
         }
-
-        for (SingleListenerElement singleListener : listeners.getSource().getListeners()){
-            makePageHit (sp, singleListener);
-        }
-
-    }
-
-    public void makePageHit (StreamProperty streamProperty, SingleListenerElement singleListener) {
-
-
-        try {
-            if (streamProperty.getTitle() == null) streamProperty.setTitle("undefined");
-
-            String undecodedTitle = streamProperty.getTitle();
-            String decodedTitle = streamProperty.getCharacterDecoder().decode(undecodedTitle);
-
-            PageViewHit pageViewHit = new PageViewHit(decodedTitle, streamProperty.getMountPoint() + "/" + decodedTitle);
-
-            pageViewHit.userIp(singleListener.getIp());
-            GoogleAnalytics ga = new GoogleAnalytics(streamProperty.getGaAccount());
-            IDGenerator idGenerator = streamProperty.getIdGenerator();
-            pageViewHit.clientId(idGenerator.getId(singleListener));
-            if (singleListener.getReferer()!=null){
-                                pageViewHit.documentReferrer(singleListener.getReferer());
-                            }
-            if (singleListener.getUserAgent()!=null){
-                pageViewHit.userAgent(singleListener.getUserAgent());
-            }
-
-            ga.post(pageViewHit);
-
-
-        } catch (Exception e) {
-            logger.error(e.toString(), e);
-        }
-    }
-
-    public void makeEvent (StreamProperty streamProperty, SingleListenerElement listener, String eventCategory, String eventAction, String eventLabel, int eventValue){
-
-        GoogleAnalytics ga = new GoogleAnalytics(streamProperty.getGaAccount());
-        EventHit eventHit = new EventHit(eventCategory, eventAction, eventLabel, eventValue);
-
-        IDGenerator idGenerator = streamProperty.getIdGenerator();
-
-        eventHit.clientId(idGenerator.getId(listener));
-        eventHit.userIp(listener.getIp());
-        logger.debug (eventCategory + "- " +  eventAction +  " - " + eventLabel + " - " + eventValue + " for " + listener);
-        ga.post(eventHit);
 
     }
 

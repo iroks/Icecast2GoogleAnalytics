@@ -20,45 +20,22 @@ import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class InfluxDBTask  {
+public class InfluxDBTask extends AbstractTask  {
 
     final Logger logger = LoggerFactory.getLogger(InfluxDBTask.class);
 
     @Autowired
     InfluxDB influxDB;
 
-    @Resource(name="appconfig")
-    private Config config;
+    @Scheduled (fixedDelayString = "#{appconfiguration.influxDBUpdateFrequency*1000}")
+    public void setInfluxDBUpdateTask () {
 
-    @Autowired
-    private StreamPropertyService streamPropertyService;
-
-    @Autowired
-    private ServerService serverService;
-
-    @Autowired
-    private MeterRegistry meterRegistry;
-
-    @Scheduled(fixedDelay = 40000)
-    public void request () {
-
-        config.getServers()
-                .stream()
-                .map(server -> serverService.getStreamPropertiesByServer(server))
-                .forEach(streamProperty -> streamProperty.forEach(sp -> updateSynchronous(sp)));
-
-        logger.debug("influxdb process done");
+        logger.info ("start influxdb process");
+        super.updateTask();
+        logger.info("finish influxdb process");
     }
 
-    public void updateSynchronous (StreamProperty sp){
-
-        streamPropertyService.setStreamProperty(sp);
-        Listeners listeners = streamPropertyService.getListeners ();
-
-        //there are no listeners anymore
-        if (listeners==null) {
-            return;
-        }
+    public void updateSynchronous (StreamProperty sp, Listeners listeners){
 
         // Write points to InfluxDB.
         influxDB.write(Point.measurement("icecast_listeners")
@@ -67,7 +44,6 @@ public class InfluxDBTask  {
                 .addField("server", sp.getServer().getStatsURL())
                 .addField("num_listeners", listeners.getSource().getNumListeners())
                 .build());
-
 
     }
 
