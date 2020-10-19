@@ -34,6 +34,7 @@ public class StreamProperty {
     private int serverId;
 
     private Server server;
+    private ServerStats serverStats;
     private IDGenerator idGenerator;
     private Decoder characterDecoder;
     private Listeners listeners;
@@ -105,6 +106,14 @@ public class StreamProperty {
 
     public void setCharacterDecoder(Decoder characterDecoder) {
         this.characterDecoder = characterDecoder;
+    }
+
+    public ServerStats getServerStats() {
+        return serverStats;
+    }
+
+    public void setServerStats(ServerStats serverStats) {
+        this.serverStats = serverStats;
     }
 
     @Override

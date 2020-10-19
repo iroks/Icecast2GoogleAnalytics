@@ -58,6 +58,7 @@ public class ServerService {
 
                     streamProperty.setMountPoint(radioStream.getMountPoint());
                     streamProperty.setServer(server);
+                    streamProperty.setServerStats(serverStats);
                     streamProperty.setIdGenerator(IDGeneratorFactory.getIDGenerator(mountpointGAAccount.getUserIdAlgorithm()));
                     streamProperty.setCharacterDecoder(DecoderFactory.getDecoder(mountpointGAAccount.getCharacterDecoding()));
 

@@ -1,4 +1,4 @@
-package com.coherentreceiver.analytics.configuration.influxdb;
+package com.coherentreceiver.analytics.influxdb;
 
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;

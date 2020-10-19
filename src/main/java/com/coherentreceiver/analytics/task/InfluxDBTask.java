@@ -6,10 +6,13 @@ import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.Listener
 import com.coherentreceiver.analytics.fetcher.model.icecast.stats.ServerService;
 import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamProperty;
 import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamPropertyService;
+import com.coherentreceiver.analytics.influxdb.ListenerMeasurement;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.influxdb.InfluxDB;
+import org.influxdb.annotation.Column;
 import org.influxdb.dto.Point;
+import org.influxdb.impl.InfluxDBMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -37,13 +41,33 @@ public class InfluxDBTask extends AbstractTask  {
 
     public void updateSynchronous (StreamProperty sp, Listeners listeners){
 
+
+        ListenerMeasurement listenerMeasurement = new ListenerMeasurement();
+        listenerMeasurement.setTime(Instant.now());
+        listenerMeasurement.setMountPoint(listeners.getSource().getMountPoint());
+        listenerMeasurement.setNumListeners(listeners.getSource().getNumListeners());
+        listenerMeasurement.setGaAccount(sp.getGaAccount());
+        listenerMeasurement.setTitle(sp.getTitle());
+        listenerMeasurement.setClientConnections(sp.getServerStats().getClientConnections());
+        listenerMeasurement.setClients(sp.getServerStats().getClients());
+        listenerMeasurement.setListenerConnections(sp.getServerStats().getListenerConnections());
+        listenerMeasurement.setListenerConnections(sp.getServerStats().getListenerConnections());
+        listenerMeasurement.setListeners(sp.getServerStats().getListeners());
+        listenerMeasurement.setServerId(sp.getServerStats().getServerId());
+        listenerMeasurement.setServerStart(sp.getServerStats().getServerStart());
+        listenerMeasurement.setSources(sp.getServerStats().getSources());
+
+        InfluxDBMapper influxDBMapper = new InfluxDBMapper(influxDB);
+        influxDBMapper.save(listenerMeasurement);
+
         // Write points to InfluxDB.
-        influxDB.write(Point.measurement("icecast_listeners")
+/*        influxDB.write(Point.measurement("icecast_listeners")
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                 .tag("location", listeners.getSource().getMountPoint())
                 .addField("server", sp.getServer().getStatsURL())
                 .addField("num_listeners", listeners.getSource().getNumListeners())
                 .build());
+*/
 
     }
 
