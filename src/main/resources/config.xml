@@ -4,12 +4,17 @@
     <!--- how oft the data from icecast will be refreshed -->
     <icecast-update-frequency>60</icecast-update-frequency>
 
+    <!-- influxDB update frequency -->
+    <influxdb-update-frequency>60</influxdb-update-frequency>
+
+    <servers>
+
     <!--- icecast server configuration -->
     <server>
         <!--- server id -->
         <id>1</id>
         <!--- icecast status url -->
-        <statsurl>http://path_to_your_server:8000/admin/stats</statsurl>
+        <statsurl>http://:8000/admin/stats</statsurl>
         <!--- icecast listener url -->
         <listenerurl>http://path_to_your_server:8000/admin/listclients?mount=</listenerurl>
         <!--- login -->
@@ -19,6 +24,7 @@
 
         <!--- mountpoints configuration -->
         <mountpointsgaaccounts>
+        <mountpointsgaaccount>
             <!--- mountpoint -->
             <mountpoint>/live</mountpoint>
             <!--- GA-Account ID -->
@@ -27,8 +33,8 @@
             <user_id_algorithm>ip</user_id_algorithm>
             <!--- character decoding -->
             <character-decoding>no</character-decoding>
+        </mountpointsgaaccount>
         </mountpointsgaaccounts>
-
 
         <!--- next mount point on the same server
 
@@ -58,5 +64,5 @@
 
     </server>
 -->
-
+    </servers>
 </root>
