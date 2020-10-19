@@ -13,17 +13,14 @@
 *        limitations under the License.
 */
 
-package com.coherentreceiver.analytics.helper.idgenerator;
+package com.coherentreceiver.analytics.fetcher.service;
 
-import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.SingleListenerElement;
+import java.io.InputStream;
 
 /**
  *
  */
-public class IDGeneratorIP implements IDGenerator {
+public interface HTTPFetcher {
 
-    public String getId (SingleListenerElement listener){
-
-                        return listener.getIp();
-    }
+    InputStream fetch(String URL, String login, String password);
 }

@@ -13,17 +13,33 @@
 *        limitations under the License.
 */
 
-package com.coherentreceiver.analytics.helper.idgenerator;
 
-import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.SingleListenerElement;
+package com.coherentreceiver.analytics.fetcher.model.icecast.listclients;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
+ * http://.../admin/listclients
+ *
  */
-public class IDGeneratorIP implements IDGenerator {
 
-    public String getId (SingleListenerElement listener){
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement (name="icestats")
 
-                        return listener.getIp();
+public class Listeners {
+
+    @XmlElement (name="source")
+    SourceStreamElement source;
+
+    public SourceStreamElement getSource() {
+        return source;
+    }
+
+    public void setSource(SourceStreamElement source) {
+        this.source = source;
     }
 }

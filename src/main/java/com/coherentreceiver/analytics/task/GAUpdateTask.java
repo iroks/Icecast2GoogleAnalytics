@@ -19,31 +19,54 @@ package com.coherentreceiver.analytics.task;
 import com.brsanthu.googleanalytics.EventHit;
 import com.brsanthu.googleanalytics.GoogleAnalytics;
 import com.brsanthu.googleanalytics.PageViewHit;
-import com.coherentreceiver.analytics.configuration.Server;
-import com.coherentreceiver.analytics.fetcher.ListenersFetcher;
+import com.coherentreceiver.analytics.configuration.model.Config;
+import com.coherentreceiver.analytics.configuration.service.Configurator;
 import com.coherentreceiver.analytics.helper.idgenerator.IDGenerator;
-import com.coherentreceiver.analytics.icecastmodel.listclients.Listeners;
-import com.coherentreceiver.analytics.icecastmodel.listclients.SingleListenerElement;
-import com.coherentreceiver.analytics.icecastmodel.stats.StreamProperty;
+import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.Listeners;
+import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.SingleListenerElement;
+import com.coherentreceiver.analytics.fetcher.model.icecast.stats.ServerService;
+import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamProperty;
+import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamPropertyService;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  */
-public class GAUpdateTask extends AbstractTask<StreamProperty>  implements Runnable {
+@Component
+public class GAUpdateTask   {
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(GAUpdateTask.class);
+    final Logger logger = LoggerFactory.getLogger(GAUpdateTask.class);
 
-    public void run() {
+    @Autowired
+    private Config config;
 
-        //asynchronous multithreaded version
-        logger.debug ("GAUpdate task Begin; transfer listeners to the GAServer");
+    @Autowired
+    private StreamPropertyService streamPropertyService;
+
+    @Autowired
+    private ServerService serverService;
+
+
+  //  @Scheduled(fixedDelay = 40000)
+    public void gaUpdateTask () {
+
+        config.getServers()
+                .stream()
+                .map(server -> serverService.getStreamPropertiesByServer (server))
+                .forEach(streamProperty -> streamProperty.forEach(sp -> updateSynchronous(sp)));
+
+        logger.debug("ga update process done");
 
     }
 
-    public void updateSynchronous (StreamProperty streamProperty){
+     public void updateSynchronous (StreamProperty sp){
 
-        Listeners listeners = getListeners (streamProperty);
+         streamPropertyService.setStreamProperty(sp);
+         Listeners listeners = streamPropertyService.getListeners ();
+
 
         //there are no listeners anymore
         if (listeners==null) {
@@ -52,38 +75,10 @@ public class GAUpdateTask extends AbstractTask<StreamProperty>  implements Runna
         }
 
         for (SingleListenerElement singleListener : listeners.getSource().getListeners()){
-            makePageHit (streamProperty, singleListener);
+            makePageHit (sp, singleListener);
         }
 
     }
-
-
-    public Listeners getListeners (StreamProperty streamProperty) {
-
-        Listeners listeners=null;
-
-        try {
-
-            Server server = streamProperty.getServer();
-
-            ListenersFetcher listenersFetcher = new ListenersFetcher();
-            listeners = listenersFetcher.getListeners(server.getListenerURL() + streamProperty.getMountPoint(), server.getLogin(), server.getPassword());
-
-
-            if (listeners.getSource().getListeners() == null) {
-
-                return null; //there are no listeners on this mount point
-
-            }
-        }catch (Exception e) {
-            logger.error(e.toString(), e);
-        }
-
-        return listeners;
-
-
-    }
-
 
     public void makePageHit (StreamProperty streamProperty, SingleListenerElement singleListener) {
 
@@ -109,6 +104,7 @@ public class GAUpdateTask extends AbstractTask<StreamProperty>  implements Runna
 
             ga.post(pageViewHit);
 
+
         } catch (Exception e) {
             logger.error(e.toString(), e);
         }
@@ -128,6 +124,11 @@ public class GAUpdateTask extends AbstractTask<StreamProperty>  implements Runna
 
     }
 
+    public StreamPropertyService getStreamPropertyService() {
+        return streamPropertyService;
+    }
 
-
+    public void setStreamPropertyService(StreamPropertyService streamPropertyService) {
+        this.streamPropertyService = streamPropertyService;
+    }
 }

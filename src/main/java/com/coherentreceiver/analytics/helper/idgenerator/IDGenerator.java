@@ -15,7 +15,7 @@
 
 package com.coherentreceiver.analytics.helper.idgenerator;
 
-import com.coherentreceiver.analytics.icecastmodel.listclients.SingleListenerElement;
+import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.SingleListenerElement;
 
 /**
  *

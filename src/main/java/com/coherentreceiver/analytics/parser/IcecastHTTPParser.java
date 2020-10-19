@@ -15,7 +15,7 @@
 
 package com.coherentreceiver.analytics.parser;
 
-import com.coherentreceiver.analytics.icecastmodel.listclients.Stream;
+import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.Stream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
