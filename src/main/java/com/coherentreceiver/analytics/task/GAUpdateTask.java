@@ -48,7 +48,7 @@ public class GAUpdateTask extends AbstractTask   {
     @Autowired
     private GAService gaService;
 
-    @Scheduled (fixedDelayString = "#{appconfiguration.analyticsUpdateFrequency*1000}")
+    // @Scheduled (fixedDelayString = "#{appconfiguration.analyticsUpdateFrequency*1000}")
     public void gaUpdateTask () {
         super.updateTask();
     }
