@@ -43,6 +43,15 @@ public class Config {
     @JsonProperty (value="influxdb-update-frequency")
     int influxDBUpdateFrequency;
 
+    //path to geodatabase
+    @JsonProperty (value="geodatabase-path")
+    String geoDatabasePath;
+
+    //geolocation provider
+    @JsonProperty (value="geolocation-provider")
+    String geolocationProvder;
+
+
     //Server element for configuration
     @JacksonXmlProperty(localName = "servers")
     @JacksonXmlElementWrapper(useWrapping = true)
@@ -72,6 +81,22 @@ public class Config {
 
     public void setInfluxDBUpdateFrequency(int influxDBUpdateFrequency) {
         this.influxDBUpdateFrequency = influxDBUpdateFrequency;
+    }
+
+    public String getGeoDatabasePath() {
+        return geoDatabasePath;
+    }
+
+    public void setGeoDatabasePath(String geoDatabasePath) {
+        this.geoDatabasePath = geoDatabasePath;
+    }
+
+    public String getGeolocationProvder() {
+        return geolocationProvder;
+    }
+
+    public void setGeolocationProvder(String geolocationProvder) {
+        this.geolocationProvder = geolocationProvder;
     }
 
     public List<Server> getServers() {

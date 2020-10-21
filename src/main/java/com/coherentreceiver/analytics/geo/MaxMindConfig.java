@@ -18,10 +18,12 @@ import java.io.File;
 @Configuration
 public class MaxMindConfig {
 
-    @Value("${spring.application.maxminddb.path:''}")
+ //   @Value("${spring.application.maxminddb.path:''}")
+    @Value ("#{appconfiguration.geoDatabasePath}")
     private String dbLocation;
 
-    @Value("${spring.application.maxminddb.databasebean}")
+ //   @Value("${spring.application.maxminddb.databasebean}")
+    @Value ("#{appconfiguration.geolocationProvder}")
     private String databasebean;
 
     private GeoIp2Provider databaseReader;

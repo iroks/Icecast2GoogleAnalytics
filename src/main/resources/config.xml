@@ -7,6 +7,16 @@
     <!-- influxDB update frequency -->
     <influxdb-update-frequency>60</influxdb-update-frequency>
 
+    <!-- Geodatabase path -->
+    <geodatabase-path>.... /dbip-city-lite-2020-10.mmdb</geodatabase-path>
+
+    <!-- geolocation provider: currently API from MaxMind (maxmind) and Mockprovider (mockmaxmind) are supported
+     This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com //is it still necessary to attrbiute if a database not included?
+     https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/
+     https://db-ip.com/db/download/ip-to-city-lite -->
+    <!-- maxmind api is compatible with db-ip.com -->
+    <geolocation-provider>maxmind</geolocation-provider>
+
     <servers>
 
     <!--- icecast server configuration -->
