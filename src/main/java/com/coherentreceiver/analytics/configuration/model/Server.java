@@ -54,6 +54,15 @@ public class Server {
 
     public Server(){}
 
+    public Integer getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(Integer serverId) {
+        this.serverId = serverId;
+    }
+
+
     public String getStatsURL() {
         return statsURL;
     }

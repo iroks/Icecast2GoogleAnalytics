@@ -16,39 +16,47 @@
 package com.coherentreceiver.analytics.fetcher.model.icecast.listclients;
 
 
+import org.influxdb.annotation.Column;
+import org.influxdb.annotation.Measurement;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
+// @Measurement(name = "icecast_singlelistener", database = "icecast", timeUnit = TimeUnit.SECONDS)
 public class SingleListenerElement {
 
     //listener ip address
     @XmlElement (name="IP")
-    private String ip;
+    @Column(name = "ip", tag = false)
+    protected String ip;
 
     //listener user agent
     @XmlElement (name="UserAgent")
-    private String userAgent ;
+    @Column (name = "useragent", tag = true)
+    protected String userAgent ;
 
     //listener connection time
     @XmlElement (name="Connected")
-    private long connected;
+    @Column (name = "connected", tag = false)
+    protected long connected;
 
     @XmlElement (name="Referer")
-    private String referer;
+    @Column (name = "referer", tag = true)
+    protected String referer;
 
     //listener icecast id
     @XmlElement (name="ID")
-    private String id;
+    @Column (name = "id", tag = false)
+    protected String id;
 
     private SingleListenerState listenerState = SingleListenerState.NOSTATE;
-
-
 
     public String getIp() {
         return ip;

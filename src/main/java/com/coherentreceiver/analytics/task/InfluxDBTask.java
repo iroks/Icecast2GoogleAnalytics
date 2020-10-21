@@ -1,27 +1,30 @@
 package com.coherentreceiver.analytics.task;
 
-import com.coherentreceiver.analytics.configuration.model.Config;
-import com.coherentreceiver.analytics.configuration.service.Configurator;
+import com.brsanthu.googleanalytics.PageViewHit;
 import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.Listeners;
-import com.coherentreceiver.analytics.fetcher.model.icecast.stats.ServerService;
+import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.SingleListenerElement;
 import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamProperty;
-import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamPropertyService;
-import com.coherentreceiver.analytics.influxdb.ListenerMeasurement;
-import io.micrometer.core.instrument.Gauge;
-import io.micrometer.core.instrument.MeterRegistry;
+import com.coherentreceiver.analytics.influxdb.ListenersMeasurement;
+import com.coherentreceiver.analytics.influxdb.SingleListenerMeasurement;
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.GeoIp2Provider;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.model.CityResponse;
 import org.influxdb.InfluxDB;
-import org.influxdb.annotation.Column;
-import org.influxdb.dto.Point;
 import org.influxdb.impl.InfluxDBMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import java.net.InetAddress;
 import java.time.Instant;
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
+import java.util.Optional;
 
 @Component
 public class InfluxDBTask extends AbstractTask  {
@@ -30,6 +33,11 @@ public class InfluxDBTask extends AbstractTask  {
 
     @Autowired
     InfluxDB influxDB;
+
+    @Autowired
+    @Qualifier ("geoprovider")
+    GeoIp2Provider geoProvider;
+
 
     @Scheduled (fixedDelayString = "#{appconfiguration.influxDBUpdateFrequency*1000}")
     public void setInfluxDBUpdateTask () {
@@ -41,24 +49,67 @@ public class InfluxDBTask extends AbstractTask  {
 
     public void updateSynchronous (StreamProperty sp, Listeners listeners){
 
-
-        ListenerMeasurement listenerMeasurement = new ListenerMeasurement();
-        listenerMeasurement.setTime(Instant.now());
-        listenerMeasurement.setMountPoint(listeners.getSource().getMountPoint());
-        listenerMeasurement.setNumListeners(listeners.getSource().getNumListeners());
-        listenerMeasurement.setGaAccount(sp.getGaAccount());
-        listenerMeasurement.setTitle(sp.getTitle());
-        listenerMeasurement.setClientConnections(sp.getServerStats().getClientConnections());
-        listenerMeasurement.setClients(sp.getServerStats().getClients());
-        listenerMeasurement.setListenerConnections(sp.getServerStats().getListenerConnections());
-        listenerMeasurement.setListenerConnections(sp.getServerStats().getListenerConnections());
-        listenerMeasurement.setListeners(sp.getServerStats().getListeners());
-        listenerMeasurement.setServerId(sp.getServerStats().getServerId());
-        listenerMeasurement.setServerStart(sp.getServerStats().getServerStart());
-        listenerMeasurement.setSources(sp.getServerStats().getSources());
-
         InfluxDBMapper influxDBMapper = new InfluxDBMapper(influxDB);
-        influxDBMapper.save(listenerMeasurement);
+
+        //todo: if really need all these values on transfer objects?
+        ListenersMeasurement listenersMeasurement = new ListenersMeasurement();
+        listenersMeasurement.setTime(Instant.now());
+        listenersMeasurement.setMountPoint(
+                Optional.ofNullable(listeners.getSource().getMountPoint()).orElse("")
+        );
+        listenersMeasurement.setNumListeners(listeners.getSource().getNumListeners());
+        listenersMeasurement.setGaAccount(sp.getGaAccount());
+        listenersMeasurement.setTitle(sp.getTitle());
+        listenersMeasurement.setClientConnections(sp.getServerStats().getClientConnections());
+        listenersMeasurement.setClients(sp.getServerStats().getClients());
+        listenersMeasurement.setListenerConnections(sp.getServerStats().getListenerConnections());
+        listenersMeasurement.setListeners(sp.getServerStats().getListeners());
+        listenersMeasurement.setServerId(sp.getServerStats().getServerId());
+        listenersMeasurement.setServerStart(sp.getServerStats().getServerStart());
+        listenersMeasurement.setSources(sp.getServerStats().getSources());
+        listenersMeasurement.setServerHost(sp.getServerStats().getHost());
+
+        influxDBMapper.save(listenersMeasurement);
+
+        for (SingleListenerElement singleListener : listeners.getSource().getListeners()) {
+            SingleListenerMeasurement slMeasurement = new SingleListenerMeasurement(singleListener);
+
+            CityResponse response=null;
+            try {
+                if (geoProvider != null){
+                    InetAddress ip = InetAddress.getByName(slMeasurement.getIp());
+                    response = geoProvider.city(ip);
+                    }
+            } catch (Exception ex){
+                logger.info("IP Address not found in the database or Unknown host");}
+
+                try {
+                    slMeasurement.setCountry(Optional.ofNullable(response.getCountry().getName()).orElse(""));
+                } catch (Exception ex) {
+                    slMeasurement.setCountry ("");
+                }
+
+                try {
+                    slMeasurement.setCity(Optional.ofNullable(response.getCity().getName()).orElse(""));
+                } catch (Exception ex) {
+                    slMeasurement.setCity("");
+                }
+
+                try{
+                slMeasurement.setTitle(Optional.ofNullable(sp.getCharacterDecoder().decode(sp.getTitle())).orElse(""));
+                slMeasurement.setMountpoint(Optional.ofNullable((sp.getMountPoint())).orElse(""));
+                slMeasurement.setServerHost(Optional.ofNullable(sp.getServerStats().getHost()).orElse(""));
+                slMeasurement.setGaAccount(Optional.ofNullable(sp.getGaAccount()).orElse(""));
+
+                influxDBMapper.save(slMeasurement);
+
+            } catch (Exception ex){
+                ex.printStackTrace();
+            }
+
+
+        }
+
 
         // Write points to InfluxDB.
 /*        influxDB.write(Point.measurement("icecast_listeners")
@@ -70,6 +121,7 @@ public class InfluxDBTask extends AbstractTask  {
 */
 
     }
+
 
 }
 
