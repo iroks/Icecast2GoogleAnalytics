@@ -11,18 +11,12 @@ Please don't hesitate to contact us if you have additional requirements, wishes 
 Grafana:
 docker run -d -p 3000:3000 grafana/grafana <br />
 InfluxDB: docker run -p 8086:8086  -v $PWD/influxdb:/var/lib/influxdb:rw influxdb <br />
-<br>
-
-influx <br />
-Connected to http://localhost:8086 version 1.8.3 <br />
-InfluxDB shell version: 1.6.4 <br />
-\> use icecast <br>
-Using database icecast <br />
-\> select * from icecast_listeners <br>
-name: icecast_listeners <br />
-time                location num_listeners server <br />
-----                -------- ------------- ------ <br />
-1602847612118000000 /live    15568           http://.....
+<br />
+https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/
+<br />
+https://db-ip.com/db/download/ip-to-city-lite
 
 
+<br />
+For HLS distribution
 HLS: ffmpeg -i http:/... -c:a aac -b:a 128k -ac 2 -f hls -hls_time 4 -hls_playlist_type event stream.m3u8cd /var/
