@@ -1,10 +1,10 @@
 package com.coherentreceiver.analytics.task;
 
 import com.coherentreceiver.analytics.appconfiguration.model.Config;
-import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.Listeners;
-import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.stats.ServerService;
-import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.stats.StreamProperty;
-import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.stats.StreamPropertyService;
+import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.listclients.Listeners;
+import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.stats.ServerService;
+import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.stats.StreamProperty;
+import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.stats.StreamPropertyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

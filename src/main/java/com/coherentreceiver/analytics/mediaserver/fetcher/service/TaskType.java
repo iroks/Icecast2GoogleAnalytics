@@ -12,18 +12,14 @@
 *        See the License for the specific language governing permissions and
 *        limitations under the License.
 */
-
-package com.coherentreceiver.analytics.helper.idgenerator;
-
-import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.listclients.SingleListenerElement;
+package com.coherentreceiver.analytics.mediaserver.fetcher.service;
 
 /**
  *
  */
-public class IDGeneratorIP implements IDGenerator {
+public enum TaskType {
 
-    public String getId (SingleListenerElement listener){
-
-                        return listener.getIp();
-    }
+        ICECAST_LOG_PARSER,
+        ICECAST_XML_PARSER,
+        GAUPDATE
 }

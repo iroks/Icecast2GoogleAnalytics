@@ -13,17 +13,28 @@
 *        limitations under the License.
 */
 
-package com.coherentreceiver.analytics.helper.idgenerator;
 
-import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.listclients.SingleListenerElement;
+package com.coherentreceiver.analytics.mediaserver.parser;
 
-/**
- *
- */
-public class IDGeneratorIP implements IDGenerator {
+@SuppressWarnings("serial")
+public class ParseException extends Exception {
+    public ParseException()
+    {
+        super();
+    }
+    
+    public ParseException(String exception)
+    {
+        super(exception);
+    }
+    
+    public ParseException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 
-    public String getId (SingleListenerElement listener){
-
-                        return listener.getIp();
+    public ParseException(Throwable cause)
+    {
+        super(cause);
     }
 }

@@ -17,14 +17,13 @@
 package com.coherentreceiver.analytics.task;
 
 import com.coherentreceiver.analytics.platform.googleanalytics.service.GAService;
-import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.Listeners;
-import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.SingleListenerElement;
-import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.stats.StreamProperty;
-import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.stats.StreamPropertyService;
+import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.listclients.Listeners;
+import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.listclients.SingleListenerElement;
+import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.stats.StreamProperty;
+import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.stats.StreamPropertyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +37,7 @@ public class GAUpdateTask extends AbstractTask   {
     @Autowired
     private GAService gaService;
 
-    @Scheduled(fixedDelayString = "#{appconfiguration.analyticsUpdateFrequency*1000}")
+    // @Scheduled(fixedDelayString = "#{appconfiguration.analyticsUpdateFrequency*1000}")
     public void gaUpdateTask () {
         super.updateTask();
     }
