@@ -32,26 +32,21 @@ public class SingleListenerElement {
 
     //listener ip address
     @XmlElement (name="IP")
-    @Column(name = "ip", tag = false)
     protected String ip;
 
     //listener user agent
     @XmlElement (name="UserAgent")
-    @Column (name = "useragent", tag = true)
     protected String userAgent ;
 
     //listener connection time
     @XmlElement (name="Connected")
-    @Column (name = "connected", tag = false)
     protected long connected;
 
     @XmlElement (name="Referer")
-    @Column (name = "referer", tag = true)
     protected String referer;
 
     //listener icecast id
     @XmlElement (name="ID")
-    @Column (name = "id", tag = false)
     protected String id;
 
     private SingleListenerState listenerState = SingleListenerState.NOSTATE;

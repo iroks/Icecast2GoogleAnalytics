@@ -1,4 +1,4 @@
-package com.coherentreceiver.analytics.platform.customanalytics.model;
+package com.coherentreceiver.analytics.platform.streaminganalytics.model;
 
 import org.influxdb.annotation.Column;
 import org.influxdb.annotation.Measurement;

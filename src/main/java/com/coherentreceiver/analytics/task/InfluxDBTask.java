@@ -2,10 +2,10 @@ package com.coherentreceiver.analytics.task;
 
 import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.listclients.Listeners;
 import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.stats.StreamProperty;
-import com.coherentreceiver.analytics.platform.customanalytics.model.ListenersMeasurement;
-import com.coherentreceiver.analytics.platform.customanalytics.model.SingleListenerMeasurement;
-import com.coherentreceiver.analytics.platform.customanalytics.service.ListenersMeasurementService;
-import com.coherentreceiver.analytics.platform.customanalytics.service.SingleListenerMeasurementService;
+import com.coherentreceiver.analytics.platform.streaminganalytics.model.ListenersMeasurement;
+import com.coherentreceiver.analytics.platform.streaminganalytics.model.SingleListenerMeasurement;
+import com.coherentreceiver.analytics.platform.streaminganalytics.service.ListenersMeasurementService;
+import com.coherentreceiver.analytics.platform.streaminganalytics.service.SingleListenerMeasurementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class InfluxDBTask extends AbstractTask  {
     SingleListenerMeasurementService <SingleListenerMeasurement, Instant> singleListenerMeasurementService;
 
 
-    @Scheduled (fixedDelayString = "#{appconfiguration.influxDBUpdateFrequency*1000}")
+  //  @Scheduled (fixedDelayString = "#{appconfiguration.influxDBUpdateFrequency*1000}")
     public void setInfluxDBUpdateTask () {
 
         logger.info ("start influxdb process");

@@ -1,4 +1,4 @@
-package com.coherentreceiver.analytics.platform.customanalytics.dao;
+package com.coherentreceiver.analytics.platform.streaminganalytics.dao;
 
 import org.influxdb.InfluxDB;
 import org.influxdb.impl.InfluxDBMapper;
@@ -16,7 +16,6 @@ public class InfluxDBRepository <T, ID> implements CrudRepository<T,ID> {
 
     private InfluxDBMapper influxDBMapper;
 
-    @Autowired
     public InfluxDBRepository (InfluxDB influxDB){
         this.influxDB = influxDB;
         this.influxDBMapper = new InfluxDBMapper(influxDB);
@@ -24,7 +23,7 @@ public class InfluxDBRepository <T, ID> implements CrudRepository<T,ID> {
 
     @Override
     public <S extends T> S save(S s) {
-        InfluxDBMapper influxDBMapper = new InfluxDBMapper(influxDB);
+//        InfluxDBMapper influxDBMapper = new InfluxDBMapper(influxDB);
         influxDBMapper.save(s);
         return s;
 

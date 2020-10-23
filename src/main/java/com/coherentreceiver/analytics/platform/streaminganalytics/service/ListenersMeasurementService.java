@@ -1,9 +1,9 @@
-package com.coherentreceiver.analytics.platform.customanalytics.service;
+package com.coherentreceiver.analytics.platform.streaminganalytics.service;
 
 import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.listclients.Listeners;
 import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.stats.StreamProperty;
-import com.coherentreceiver.analytics.platform.customanalytics.dao.InfluxDBRepository;
-import com.coherentreceiver.analytics.platform.customanalytics.model.ListenersMeasurement;
+import com.coherentreceiver.analytics.platform.streaminganalytics.dao.InfluxDBRepository;
+import com.coherentreceiver.analytics.platform.streaminganalytics.model.ListenersMeasurement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
