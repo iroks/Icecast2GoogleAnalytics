@@ -1,14 +1,11 @@
 package com.coherentreceiver.analytics.task;
 
-import com.brsanthu.googleanalytics.PageViewHit;
-import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.Listeners;
-import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.SingleListenerElement;
-import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamProperty;
-import com.coherentreceiver.analytics.influxdb.ListenersMeasurement;
-import com.coherentreceiver.analytics.influxdb.SingleListenerMeasurement;
-import com.maxmind.geoip2.DatabaseReader;
+import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.Listeners;
+import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.SingleListenerElement;
+import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.stats.StreamProperty;
+import com.coherentreceiver.analytics.platform.customanalytics.model.ListenersMeasurement;
+import com.coherentreceiver.analytics.platform.customanalytics.model.SingleListenerMeasurement;
 import com.maxmind.geoip2.GeoIp2Provider;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CityResponse;
 import org.influxdb.InfluxDB;
 import org.influxdb.impl.InfluxDBMapper;
@@ -16,14 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -150,7 +144,7 @@ package com.coherentreceiver.analytics.task;
 
         import com.coherentreceiver.analytics.configuration.Configuration;
         import com.coherentreceiver.analytics.configuration.model.Server;
-        import com.coherentreceiver.analytics.fetcher.model.icecastmodel.stats.StreamProperty;
+        import com.coherentreceiver.analytics.icecast.fetcher.model.icecastmodel.stats.StreamProperty;
         import org.influxdb.InfluxDB;
         import org.influxdb.InfluxDBFactory;
         import org.influxdb.dto.Pong;

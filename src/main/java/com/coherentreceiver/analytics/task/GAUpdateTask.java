@@ -16,26 +16,16 @@
 
 package com.coherentreceiver.analytics.task;
 
-import com.brsanthu.googleanalytics.EventHit;
-import com.brsanthu.googleanalytics.GoogleAnalytics;
-import com.brsanthu.googleanalytics.PageViewHit;
-import com.coherentreceiver.analytics.configuration.model.Config;
-import com.coherentreceiver.analytics.configuration.service.Configurator;
-import com.coherentreceiver.analytics.ga.service.GAService;
-import com.coherentreceiver.analytics.helper.idgenerator.IDGenerator;
-import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.Listeners;
-import com.coherentreceiver.analytics.fetcher.model.icecast.listclients.SingleListenerElement;
-import com.coherentreceiver.analytics.fetcher.model.icecast.stats.ServerService;
-import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamProperty;
-import com.coherentreceiver.analytics.fetcher.model.icecast.stats.StreamPropertyService;
+import com.coherentreceiver.analytics.platform.googleanalytics.service.GAService;
+import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.Listeners;
+import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.SingleListenerElement;
+import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.stats.StreamProperty;
+import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.stats.StreamPropertyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  *
@@ -48,7 +38,7 @@ public class GAUpdateTask extends AbstractTask   {
     @Autowired
     private GAService gaService;
 
-    // @Scheduled (fixedDelayString = "#{appconfiguration.analyticsUpdateFrequency*1000}")
+    @Scheduled(fixedDelayString = "#{appconfiguration.analyticsUpdateFrequency*1000}")
     public void gaUpdateTask () {
         super.updateTask();
     }

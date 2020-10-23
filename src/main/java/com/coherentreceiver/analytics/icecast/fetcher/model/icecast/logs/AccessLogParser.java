@@ -13,17 +13,10 @@
 *        limitations under the License.
 */
 
-package com.coherentreceiver.analytics.helper.idgenerator;
-
-        import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.SingleListenerElement;
+package com.coherentreceiver.analytics.icecast.fetcher.model.icecast.logs;
 
 /**
  *
  */
-public class IDGeneratorIcecastID implements IDGenerator {
-
-    public String getId (SingleListenerElement listener){
-
-        return listener.getId();
-    }
+public interface AccessLogParser {
 }

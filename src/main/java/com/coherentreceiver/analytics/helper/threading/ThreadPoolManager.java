@@ -19,7 +19,7 @@ package com.coherentreceiver.analytics.helper.threading;
  *
  */
 
-import com.coherentreceiver.analytics.fetcher.service.TaskType;
+import com.coherentreceiver.analytics.icecast.fetcher.service.TaskType;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;

@@ -13,17 +13,18 @@
 *        limitations under the License.
 */
 
-package com.coherentreceiver.analytics.helper.idgenerator;
+package com.coherentreceiver.analytics.icecast.parser;
 
-        import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.SingleListenerElement;
+import com.coherentreceiver.analytics.icecast.fetcher.model.icecast.listclients.Stream;
+
+import java.net.URI;
+import java.util.List;
 
 /**
  *
  */
-public class IDGeneratorIcecastID implements IDGenerator {
+public interface Parser {
 
-    public String getId (SingleListenerElement listener){
+        List<Stream> parse(URI uri) throws ParseException;
 
-        return listener.getId();
-    }
 }
