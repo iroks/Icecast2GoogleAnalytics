@@ -16,7 +16,16 @@ https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-g
 <br />
 https://db-ip.com/db/download/ip-to-city-lite
 
+<h3>Proxy properties configuration</h3>
+Admin route is configured from the configuration file (transparent Icecast Server access possible using Spring Security)
+<br />
+zuul.routes.admin.path=/icecast/admin/**
+zuul.routes.streaming.path=/icecast/streaming/**
+zuul.routes.streaming.url=http://A.B.C.D:PORT/
+<h3>Tracking Pixel</h3>
+Tracking Pixel is configured under .../pixel/. 
 
+<h3>HLS Distribution</h3>
 <br />
 For HLS distribution
 HLS: ffmpeg -i http:/... -c:a aac -b:a 128k -ac 2 -f hls -hls_time 4 -hls_playlist_type event stream.m3u8cd /var/
