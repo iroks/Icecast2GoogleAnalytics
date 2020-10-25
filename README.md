@@ -19,8 +19,8 @@ https://db-ip.com/db/download/ip-to-city-lite
 <h3>Proxy properties configuration</h3>
 Admin route is configured from the configuration file (transparent Icecast Server access possible using Spring Security)
 <br />
-zuul.routes.admin.path=/icecast/admin/**
-zuul.routes.streaming.path=/icecast/streaming/**
+zuul.routes.admin.path=/icecast/admin/** <br />
+zuul.routes.streaming.path=/icecast/streaming/** <br />
 zuul.routes.streaming.url=http://A.B.C.D:PORT/
 <h3>Tracking Pixel</h3>
 Tracking Pixel is configured under .../pixel/. 
