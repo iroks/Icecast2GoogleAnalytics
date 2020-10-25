@@ -1,3 +1,7 @@
+/**
+ * Copyright 2020 SWI Kommunikations- und Computer GmbH
+ */
+
 package com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.stats;
 
 import com.coherentreceiver.analytics.appconfiguration.model.MountpointsGAAccount;

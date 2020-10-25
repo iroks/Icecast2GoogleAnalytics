@@ -1,3 +1,7 @@
+/**
+ * Copyright 2017-2020 SWI Kommunikations- und Computer GmbH
+ */
+
 package com.coherentreceiver.analytics.platform.streaminganalytics.service;
 
 import com.coherentreceiver.analytics.mediaserver.fetcher.model.icecast.listclients.Listeners;

@@ -1,3 +1,7 @@
+/**
+ * Copyright 2020 SWI Kommunikations- und Computer GmbH
+ */
+
 package com.coherentreceiver.analytics.helper.xml;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;

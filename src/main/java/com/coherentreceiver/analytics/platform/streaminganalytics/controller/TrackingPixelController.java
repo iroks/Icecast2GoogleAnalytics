@@ -1,3 +1,7 @@
+/**
+ * Copyright 2017-2020 SWI Kommunikations- und Computer GmbH
+ */
+
 package com.coherentreceiver.analytics.platform.streaminganalytics.controller;
 
 import com.coherentreceiver.analytics.geo.GeoProviderService;
@@ -22,9 +26,9 @@ public class TrackingPixelController {
 
     private final SingleListenerMeasurementService singleListenerMeasurementService;
 
-    private final GeoProviderService geoProviderService;
+    private GeoProviderService geoProviderService;
 
-    private final InfluxDBRepository<SingleListenerMeasurement, Instant> influxDBRepository;
+    private InfluxDBRepository<SingleListenerMeasurement, Instant> influxDBRepository;
 
     // https://stackoverflow.com/questions/4548769/dynamically-generate-transparent-tracking-pixel
     static byte[] trackingGif = { 0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x1, 0x0, 0x1, 0x0, (byte) 0x80, 0x0, 0x0, (byte)  0xff, (byte)  0xff,  (byte) 0xff, 0x0, 0x0, 0x0, 0x2c, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x1, 0x0, 0x0, 0x2, 0x2, 0x44, 0x1, 0x0, 0x3b };
@@ -72,7 +76,7 @@ public class TrackingPixelController {
         singleListenerMeasurement.setMountpoint(mountpoint);
         singleListenerMeasurement.setGaAccount(gaaccount);
 
-        influxDBRepository.save(singleListenerMeasurement);
+        singleListenerMeasurementService.save(singleListenerMeasurement);
 
         return trackingPng;
     }

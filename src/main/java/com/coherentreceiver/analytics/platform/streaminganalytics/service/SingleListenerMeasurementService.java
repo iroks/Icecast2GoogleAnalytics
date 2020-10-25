@@ -1,3 +1,7 @@
+/**
+ * Copyright 2017-2020 SWI Kommunikations- und Computer GmbH
+ */
+
 package com.coherentreceiver.analytics.platform.streaminganalytics.service;
 
 import com.coherentreceiver.analytics.geo.GeoProviderService;
@@ -46,8 +50,11 @@ public class SingleListenerMeasurementService <T, ID> {
 
             influxDBRepository.save(slMeasurement);
 
-
-
         }
+    }
+
+    public void save (SingleListenerMeasurement singleListenerMeasurement){
+        influxDBRepository.save(singleListenerMeasurement);
+
     }
 }

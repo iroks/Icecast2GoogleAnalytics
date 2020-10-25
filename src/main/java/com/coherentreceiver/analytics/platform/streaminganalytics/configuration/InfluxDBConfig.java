@@ -1,3 +1,7 @@
+/**
+ * Copyright 2017-2020 SWI Kommunikations- und Computer GmbH
+ */
+
 package com.coherentreceiver.analytics.platform.streaminganalytics.configuration;
 
 import com.coherentreceiver.analytics.geo.GeoProviderService;
